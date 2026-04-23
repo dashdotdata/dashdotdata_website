@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashDotData — Municipal Traffic Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange-01: #F23D4C;
+    --orange-05: #F25534;
+    --orange-07: #F26029;
+    --orange-10: #F27217;
+    --teal-04: #2D9FA6;
+    --teal-06: #208A95;
+    --teal-08: #137484;
+    --teal-10: #065F73;
+    --neutral-white: #FFFFFF;
+    --neutral-off-white: #F5F5F5;
+    --neutral-light-gray: #E8E8E8;
+    --neutral-mid-gray: #9A9A9A;
+    --neutral-dark-gray: #3D3D3D;
+    --neutral-near-black: #1A1A1A;
+    --neutral-black: #000000;
+    --font-heading: 'Sora', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--neutral-near-black);
+    background: var(--neutral-off-white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--teal-10);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo img {
+    height: 32px;
+    width: auto;
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--neutral-white); }
+
+  .nav-ctas {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-outline {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--neutral-white);
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    padding: 9px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--neutral-white);
+  }
+
+  .btn-primary {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--neutral-white);
+    background: linear-gradient(135deg, var(--orange-01), var(--orange-10));
+    border: none;
+    padding: 9px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.9; }
+
+  /* ── SECTION 3: SOLUTION OVERVIEW ── */
+  .solution {
+    padding: 80px 48px;
+    background: var(--teal-10);
+  }
+
+  .solution-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1344px;
+    margin: 0 auto;
+  }
+
+  .solution-headline {
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-white);
+    margin-bottom: 24px;
+  }
+
+  .solution-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 28px;
+  }
+
+  .solution-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .solution-list li {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.75);
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .solution-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange-01), var(--orange-10));
+  }
+
+  .solution-image {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .solution-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 420px;
+  }
+
+
+  /* ── SECTION 4: WHAT WE MEASURE ── */
+  .measures {
+    padding: 80px 48px;
+    background: var(--neutral-off-white);
+  }
+
+  .measures-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    max-width: 1344px;
+    margin: 0 auto;
+  }
+
+  .measures-header { max-width: 640px; }
+
+  .measures-headline {
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-near-black);
+    margin-bottom: 16px;
+  }
+
+  .measures-subhead {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--neutral-dark-gray);
+  }
+
+  .measures-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .measure-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .measure-icon {
+    color: var(--teal-08);
+    width: 36px;
+    height: 36px;
+  }
+
+  .measure-title {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--neutral-near-black);
+  }
+
+  .measure-body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--neutral-dark-gray);
+  }
+
+  /* ── SECTION 5: HOW IT WORKS ── */
+  .process {
+    padding: 80px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .process-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .process-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .process-headline {
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-near-black);
+    margin-bottom: 16px;
+  }
+
+  .process-subhead {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--neutral-dark-gray);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .process-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--neutral-light-gray);
+    background: var(--neutral-white);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .process-number {
+    font-family: var(--font-heading);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--teal-08);
+    padding: 20px 24px 0;
+    letter-spacing: -0.02em;
+  }
+
+  .process-image {
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .process-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .process-card-content {
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .process-card-title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--neutral-near-black);
+  }
+
+  .process-card-body {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--neutral-dark-gray);
+  }
+
+
+  /* ── SECTION 9: FAQ ── */
+  .faq {
+    padding: 80px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .faq-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .faq-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .faq-headline {
+    font-family: var(--font-heading);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-near-black);
+    margin-bottom: 16px;
+  }
+
+  .faq-subhead {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--neutral-dark-gray);
+  }
+
+  .faq-accordion {
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--neutral-light-gray);
+  }
+
+  .faq-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .faq-trigger span {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--neutral-near-black);
+    line-height: 1.3;
+  }
+
+  .faq-trigger:hover span { color: var(--teal-08); }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    color: var(--neutral-mid-gray);
+    transition: transform 0.25s ease;
+  }
+
+  .faq-item.open .faq-chevron {
+    transform: rotate(180deg);
+    color: var(--teal-08);
+  }
+
+  .faq-item.open .faq-trigger span { color: var(--teal-08); }
+
+  .faq-answer {
+    display: none;
+    padding: 0 0 24px 0;
+  }
+
+  .faq-answer p {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--neutral-dark-gray);
+    max-width: 640px;
+  }
+
+  .faq-item.open .faq-answer { display: block; }
+
+  .faq-still .btn-outline {
+    color: var(--neutral-white);
+    background: var(--teal-08);
+    border-color: var(--teal-08);
+  }
+
+  .faq-still .btn-outline:hover {
+    background: var(--teal-10);
+    border-color: var(--teal-10);
+  }
+
+  .faq-still {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding-top: 24px;
+  }
+
+  .faq-still-title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--neutral-near-black);
+  }
+
+  .faq-still-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--neutral-dark-gray);
+  }
+
+  /* ── SECTION 10: CONTACT FORM ── */
+  .contact {
+    padding: 100px 48px;
+    background: var(--teal-10);
+  }
+
+  .contact-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    max-width: 1344px;
+    margin: 0 auto;
+  }
+
+  .contact-headline {
+    font-family: var(--font-heading);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-white);
+    max-width: 600px;
+  }
+
+  .contact-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+  }
+
+  .contact-form {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .contact-input {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--neutral-white);
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 14px 20px;
+    width: 320px;
+  }
+
+  .contact-input::placeholder { color: rgba(255,255,255,0.5); }
+
+  .btn-send {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--neutral-white);
+    background: linear-gradient(135deg, var(--orange-01), var(--orange-10));
+    border: none;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-send:hover { opacity: 0.9; }
+
+  .contact-fine {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── SECTION 8: CTA ── */
+  .cta {
+    padding: 100px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .cta-headline {
+    font-family: var(--font-heading);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-near-black);
+  }
+
+  .cta-body {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--neutral-dark-gray);
+    max-width: 560px;
+  }
+
+  .btn-cta {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--neutral-white);
+    background: var(--teal-08);
+    padding: 14px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+
+  .btn-cta:hover { background: var(--teal-10); }
+
+  /* ── SECTION 7: WHY NOW ── */
+  .whynow {
+    padding: 80px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .whynow-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .whynow-image {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--neutral-light-gray);
+    align-self: start;
+  }
+
+  .whynow-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    max-height: 480px;
+    min-height: 360px;
+  }
+
+  .whynow-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .whynow-block {
+    padding-left: 24px;
+    border-left: 4px solid transparent;
+    background-image: linear-gradient(var(--neutral-off-white), var(--neutral-off-white)), linear-gradient(180deg, var(--orange-01), var(--orange-10));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .whynow-title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--neutral-near-black);
+    margin-bottom: 12px;
+  }
+
+  .whynow-body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--neutral-dark-gray);
+  }
+
+  /* ── SECTION 6: IMPACT ── */
+  .impact {
+    padding: 80px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .impact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .impact-headline {
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-near-black);
+    margin-bottom: 20px;
+  }
+
+  .impact-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--neutral-dark-gray);
+    margin-bottom: 36px;
+  }
+
+  .impact-benefits {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .impact-benefit {
+    padding: 24px 0;
+    border-top: 1px solid var(--neutral-light-gray);
+  }
+
+  .impact-benefit:last-child {
+    border-bottom: 1px solid var(--neutral-light-gray);
+    grid-column: unset;
+  }
+
+  .impact-benefit-title {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--neutral-near-black);
+    margin-bottom: 8px;
+  }
+
+  .impact-benefit-body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--neutral-dark-gray);
+  }
+
+  .impact-image {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--neutral-light-gray);
+  }
+
+  .impact-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 480px;
+  }
+
+  .problem {
+    padding: 80px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .problem-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .problem-headline {
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--neutral-near-black);
+    margin-bottom: 24px;
+  }
+
+  .problem-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--neutral-dark-gray);
+    margin-bottom: 28px;
+  }
+
+  .problem-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .problem-list li {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--neutral-dark-gray);
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .problem-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal-08);
+  }
+
+  .problem-image {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--neutral-light-gray);
+  }
+
+  .problem-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 420px;
+  }
+
+  .hero {
+    padding: 64px 48px 80px;
+    background: var(--teal-10);
+  }
+
+  .hero-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: transparent;
+    min-height: 580px;
+    max-width: 1344px;
+    margin: 0 auto;
+  }
+
+  .hero-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-content {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .hero-headline {
+    font-family: var(--font-heading);
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--neutral-white);
+    margin-bottom: 28px;
+  }
+
+  .hero-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+
+  .btn-hero {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--neutral-white);
+    background: linear-gradient(135deg, var(--orange-01), var(--orange-10));
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    align-self: flex-start;
+  }
+
+  .btn-hero:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="https://raw.githubusercontent.com/bradtruman/dashdotdata-website/main/assets/logo.png"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
+         alt="DashDotData">
+    <span style="display:none; font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--neutral-near-black);">DashDotData</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#what-we-measure">What We Measure</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+
+  <div class="nav-ctas">
+    <a href="#contact" class="btn-outline">Contact Us</a>
+    <a href="#schedule" class="btn-primary">Schedule Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="overview">
+  <div class="hero-card">
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80"
+           alt="Street intersection with object detection overlays">
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-headline">Turn your existing camera network into measurable civic intelligence</h1>
+      <p class="hero-body">Municipal leaders across the country are using existing camera networks to understand their cities in ways that were not possible before. From traffic engineering to public safety to budget planning, DashDotData transforms footage into facts—the kind of facts that guide real decisions about where to calm traffic, how to deploy resources, and what infrastructure actually needs to change.</p>
+      <a href="#schedule" class="btn-hero">Request a walkthrough</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: PROBLEM STATEMENT -->
+<section class="problem" id="problem">
+  <div class="problem-inner">
+    <div class="problem-content">
+      <h2 class="problem-headline">The cameras exist. The answers don't.</h2>
+      <p class="problem-body">Most cities already have cameras focused on key intersections and roads. What they don't have is structured visibility into what those cameras are seeing. You're left making decisions about traffic, safety, and infrastructure without knowing the one thing that matters most: what's actually happening on your streets.</p>
+      <ul class="problem-list">
+        <li>Vehicle and pedestrian traffic patterns remain unquantified and invisible</li>
+        <li>Speed trends go unmeasured</li>
+        <li>Safety issues go undetected</li>
+        <li>Planning and infrastructure decisions lack real data</li>
+      </ul>
+    </div>
+    <div class="problem-image">
+      <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=900&q=80"
+           alt="Traffic camera mounted on a pole overlooking a city street">
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: SOLUTION OVERVIEW -->
+<section class="solution" id="solution">
+  <div class="solution-inner">
+    <div class="solution-content">
+      <h2 class="solution-headline">Bring all your camera data together to truly see your city for the first time</h2>
+      <p class="solution-body">DashDotData synthesizes the data from your city's entire camera network, then shows you exactly how to use these measurements to calm traffic, prioritize where officers work, justify infrastructure spending, attract investment, and build the trust your community deserves.</p>
+      <ul class="solution-list">
+        <li>Calm traffic with evidence-based speed and flow interventions</li>
+        <li>Direct enforcement resources to streets that need them most</li>
+        <li>Secure funding and community support for infrastructure projects</li>
+      </ul>
+    </div>
+    <div class="solution-image">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80"
+           alt="Team reviewing traffic analytics on large monitor wall">
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: WHAT WE MEASURE -->
+<section class="measures" id="what-we-measure">
+  <div class="measures-inner">
+    <div class="measures-header">
+      <h2 class="measures-headline">The numbers that matter most</h2>
+      <p class="measures-subhead">Your cameras capture everything, and DashDotData translates that footage into concrete measurements that reveal how your streets actually function.</p>
+    </div>
+    <div class="measures-grid">
+      <div class="measure-card">
+        <div class="measure-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="2" width="10" height="18" rx="3"/>
+            <circle cx="12" cy="7" r="2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <circle cx="12" cy="17" r="2"/>
+            <path d="M12 2v-1M9 2H7M17 2h-2"/>
+            <path d="M7 20h10"/>
+            <path d="M12 20v2"/>
+          </svg>
+        </div>
+        <h3 class="measure-title">Pedestrian and vehicle tracking</h3>
+        <p class="measure-body">Track hourly, daily and seasonal traffic patterns with precision.</p>
+      </div>
+      <div class="measure-card">
+        <div class="measure-icon">
+          <!-- Vehicle counts: bar chart with upward trend -->
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="12" width="4" height="9" rx="1"/>
+            <rect x="10" y="7" width="4" height="14" rx="1"/>
+            <rect x="17" y="3" width="4" height="18" rx="1"/>
+            <path d="M2 21h20"/>
+          </svg>
+        </div>
+        <h3 class="measure-title">Vehicle counts and classification</h3>
+        <p class="measure-body">Separate cars, trucks, buses and more to understand true roadway composition.</p>
+      </div>
+      <div class="measure-card">
+        <div class="measure-icon">
+          <!-- Speed/flow: speedometer gauge -->
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" stroke-dasharray="25 50" stroke-dashoffset="-12"/>
+            <path d="M12 20a8 8 0 0 0 0-16"/>
+            <path d="M4.93 4.93l1.41 1.41M17.66 6.34l1.41-1.41M2 12h2M20 12h2"/>
+            <path d="M12 12l-3-4" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <h3 class="measure-title">Speed distributions and flow</h3>
+        <p class="measure-body">See how fast vehicles are moving and where congestion exists on your streets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: HOW IT WORKS -->
+<section class="process" id="how-it-works">
+  <div class="process-inner">
+    <div class="process-header">
+      <h2 class="process-headline">From data to decision</h2>
+      <p class="process-subhead">We follow a clear path: establish a baseline, show traffic trends visually, identify outliers, extract the insight, then help you act on it. The result is a repeatable, transparent framework for city-wide operational decision-making.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-card">
+        <div class="process-number">01</div>
+        <div class="process-image">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Analyst reviewing baseline data">
+        </div>
+        <div class="process-card-content">
+          <h3 class="process-card-title">Establish a baseline</h3>
+          <p class="process-card-body">Determine what "normal" looks like at each camera location</p>
+        </div>
+      </div>
+      <div class="process-card">
+        <div class="process-number">02</div>
+        <div class="process-image">
+          <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=80" alt="Team visualizing traffic findings">
+        </div>
+        <div class="process-card-content">
+          <h3 class="process-card-title">Visualize the findings</h3>
+          <p class="process-card-body">Identify traffic patterns, trends and variations</p>
+        </div>
+      </div>
+      <div class="process-card">
+        <div class="process-number">03</div>
+        <div class="process-image">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" alt="Extracting key insights from data">
+        </div>
+        <div class="process-card-content">
+          <h3 class="process-card-title">Extract the insights</h3>
+          <p class="process-card-body">Highlight statistically meaningful outliers</p>
+        </div>
+      </div>
+      <div class="process-card">
+        <div class="process-number">04</div>
+        <div class="process-image">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Construction crew taking action">
+        </div>
+        <div class="process-card-content">
+          <h3 class="process-card-title">Take measurable action</h3>
+          <p class="process-card-body">Deploy strategies and resources backed by data</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: IMPACT -->
+<section class="impact" id="impact">
+  <div class="impact-inner">
+    <div class="impact-content">
+      <h2 class="impact-headline">What happens when your city actually knows</h2>
+      <p class="impact-body">Cities using DashDotData reduce guesswork and shorten planning cycles. Interventions become targeted. Budget requests become defensible. Community trust increases.</p>
+      <div class="impact-benefits">
+        <div class="impact-benefit">
+          <h3 class="impact-benefit-title">Shorter planning cycles</h3>
+          <p class="impact-benefit-body">Replace months of debate with weeks of implementation backed by evidence.</p>
+        </div>
+        <div class="impact-benefit">
+          <h3 class="impact-benefit-title">More effective resource deployment</h3>
+          <p class="impact-benefit-body">Put the right resources in the right places — with measurable justification.</p>
+        </div>
+        <div class="impact-benefit">
+          <h3 class="impact-benefit-title">Stronger grant applications</h3>
+          <p class="impact-benefit-body">Grant applications and budget requests land because the data speaks for itself.</p>
+        </div>
+      </div>
+    </div>
+    <div class="impact-image">
+      <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=900&q=80" alt="Aerial view of city intersection with object detection overlays">
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: WHY NOW -->
+<section class="whynow" id="why-now">
+  <div class="whynow-inner">
+    <div class="whynow-image">
+      <img src="https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?w=900&q=80" alt="Street camera with detection overlays">
+    </div>
+    <div class="whynow-content">
+      <div class="whynow-block">
+        <h2 class="whynow-title">The cost of waiting</h2>
+        <p class="whynow-body">Every month without visibility into your streets is a month of decisions made blind. Traffic calming efforts miss their mark, enforcement resources scatter across the wrong locations, and infrastructure spending gets justified by hope instead of hard evidence.</p>
+      </div>
+      <div class="whynow-block">
+        <h2 class="whynow-title">Traditional traffic studies are slow and expensive</h2>
+        <p class="whynow-body">State transportation departments can run the studies that measure what you need to know, but they take years, cost tens of thousands of dollars and still cannot provide the depth of detail that our camera analytics can. Your city's cameras could answer the same questions in weeks.</p>
+      </div>
+      <div class="whynow-block">
+        <h2 class="whynow-title">Your data is already there</h2>
+        <p class="whynow-body">The cameras exist. The traffic patterns and outliers are happening right now. DashDotData simply unlocks what your cameras have been capturing all along, turning your camera network into immediate insight.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9: FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="faq-header">
+      <h2 class="faq-headline">Questions</h2>
+      <p class="faq-subhead">Everything you need to know about how DashDotData works and what it means for your city, borough or municipality.</p>
+    </div>
+    <div class="faq-accordion">
+      <div class="faq-item">
+        <button class="faq-trigger" aria-expanded="false">
+          <span>How is privacy protected?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>We never store faces or identify individuals. We quantify and classify vehicle and pedestrian movement at an aggregate level.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" aria-expanded="false">
+          <span>What cameras do you support?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>Most municipal camera networks work with our system. We handle standard IP cameras and legacy systems alike.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" aria-expanded="false">
+          <span>How long does setup take?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>A pilot typically runs in weeks, not months. We help with the technical work so you focus on the insights.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" aria-expanded="false">
+          <span>Can we use this for enforcement?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>Yes. Speed data, traffic flow patterns, and violation hotspots help you strategically deploy resources where they matter most.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" aria-expanded="false">
+          <span>What about data ownership?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>Your city owns the data. You control access, retention, and how it's used. Full transparency, no surprises.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" aria-expanded="false">
+          <span>Does this work for small cities?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>Absolutely. Whether you have five cameras or five hundred, the system scales to your needs and budget.</p>
+        </div>
+      </div>
+    </div>
+    <div class="faq-still">
+      <h3 class="faq-still-title">Still have questions?</h3>
+      <p class="faq-still-body">Reach out to our team. We're here to talk through your specific situation.</p>
+      <a href="#contact" class="btn-outline">Contact</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: CONTACT FORM -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <h2 class="contact-headline">Schedule a 30-minute pilot review</h2>
+    <p class="contact-body">Enter your email and we'll send you everything you need to schedule your personalized walkthrough and Q&amp;A session.</p>
+    <div class="contact-form">
+      <input type="email" class="contact-input" placeholder="Your email">
+      <button class="btn-send">Send</button>
+    </div>
+    <p class="contact-fine">By submitting this form you agree to our terms and privacy policy.</p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // Close all open items
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      // Open clicked item if it was closed
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+</body>
+</html>
