@@ -116,6 +116,72 @@
 
   .btn-primary:hover { opacity: 0.9; }
 
+  /* Hamburger button — hidden on desktop */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--neutral-white);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+  }
+
+  /* Mobile menu overlay */
+  .nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--teal-10);
+    z-index: 99;
+    flex-direction: column;
+    padding: 32px 24px;
+    gap: 8px;
+    overflow-y: auto;
+  }
+
+  .nav-mobile-menu.open { display: flex; }
+
+  .nav-mobile-menu a {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav-mobile-menu a:hover { color: var(--neutral-white); }
+
+  .nav-mobile-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .nav-mobile-ctas .btn-outline,
+  .nav-mobile-ctas .btn-primary {
+    font-size: 16px;
+    padding: 14px 20px;
+    text-align: center;
+    border-radius: 8px;
+  }
+
   /* ── SECTION 3: SOLUTION OVERVIEW ── */
   .solution {
     padding: 80px 48px;
@@ -893,18 +959,277 @@
   }
 
   .btn-hero:hover { opacity: 0.9; }
+
+
+  /* ═══════════════════════════════════════════
+     MOBILE RESPONSIVE STYLES
+     Breakpoint: 768px and below
+  ═══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* ── NAV ── */
+    nav {
+      padding: 0 20px;
+      height: 64px;
+    }
+
+    /* Hide desktop links and CTAs */
+    .nav-links,
+    .nav-ctas {
+      display: none;
+    }
+
+    /* Show hamburger */
+    .nav-hamburger {
+      display: flex;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 32px 20px 48px;
+    }
+
+    .hero-card {
+      grid-template-columns: 1fr;
+      min-height: unset;
+      border-radius: 12px;
+    }
+
+    /* Show image above content on mobile */
+    .hero-image {
+      order: -1;
+      height: 220px;
+    }
+
+    .hero-image img {
+      height: 220px;
+    }
+
+    .hero-content {
+      padding: 32px 24px 36px;
+    }
+
+    .hero-headline {
+      font-size: 32px;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .hero-body {
+      font-size: 15px;
+      margin-bottom: 28px;
+      max-width: 100%;
+    }
+
+    .btn-hero {
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ── PROBLEM ── */
+    .problem {
+      padding: 56px 20px;
+    }
+
+    .problem-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    /* Text above image on mobile */
+    .problem-content { order: -1; }
+
+    .problem-headline {
+      font-size: 30px;
+      margin-bottom: 16px;
+    }
+
+    .problem-body {
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .problem-image img { min-height: 240px; }
+
+    /* ── SOLUTION ── */
+    .solution {
+      padding: 56px 20px;
+    }
+
+    .solution-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .solution-headline {
+      font-size: 30px;
+      margin-bottom: 16px;
+    }
+
+    .solution-body {
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .solution-image img { min-height: 240px; }
+
+    /* ── WHAT WE MEASURE ── */
+    .measures {
+      padding: 56px 20px;
+    }
+
+    .measures-headline { font-size: 30px; }
+
+    .measures-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .measure-title { font-size: 20px; }
+
+    /* ── HOW IT WORKS ── */
+    .process {
+      padding: 56px 20px;
+    }
+
+    .process-headline { font-size: 30px; }
+
+    .process-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .process-number { font-size: 36px; }
+
+    .process-image { height: 180px; }
+
+    /* ── IMPACT ── */
+    .impact {
+      padding: 56px 20px;
+    }
+
+    .impact-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    /* Text above image on mobile */
+    .impact-content { order: -1; }
+
+    .impact-headline {
+      font-size: 30px;
+      margin-bottom: 16px;
+    }
+
+    .impact-body {
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .impact-image img { min-height: 240px; }
+
+    /* ── WHY NOW ── */
+    .whynow {
+      padding: 56px 20px;
+    }
+
+    .whynow-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .whynow-image img {
+      min-height: 220px;
+      max-height: 280px;
+    }
+
+    .whynow-title { font-size: 20px; }
+
+    /* ── FAQ ── */
+    .faq {
+      padding: 56px 20px;
+    }
+
+    .faq-headline { font-size: 36px; }
+
+    .faq-trigger span { font-size: 16px; }
+
+    .faq-still-title { font-size: 24px; }
+
+    /* ── CONTACT ── */
+    .contact {
+      padding: 64px 20px;
+    }
+
+    .contact-headline {
+      font-size: 30px;
+      max-width: 100%;
+    }
+
+    .contact-body {
+      font-size: 15px;
+      max-width: 100%;
+    }
+
+    /* Stack email input and button vertically */
+    .contact-form {
+      flex-direction: column;
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .contact-input {
+      width: 100%;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .btn-send {
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 16px;
+    }
+  }
+
+  /* Tablet: 769px – 1024px — fix 4-col process grid */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    nav { padding: 0 28px; }
+
+    .hero { padding: 48px 28px 64px; }
+    .hero-headline { font-size: 40px; }
+    .hero-content { padding: 40px 36px; }
+
+    .problem, .solution, .measures, .process,
+    .impact, .whynow, .faq, .contact { padding-left: 28px; padding-right: 28px; }
+
+    .process-grid { grid-template-columns: repeat(2, 1fr); }
+    .measures-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .solution-inner,
+    .problem-inner,
+    .impact-inner,
+    .whynow-inner { gap: 40px; }
+
+    .solution-headline,
+    .problem-headline,
+    .impact-headline,
+    .measures-headline,
+    .process-headline { font-size: 34px; }
+  }
+
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-    <a href="#" class="nav-logo">
-        <img src="logo.png"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
-             alt="DashDotData">
-        <span style="display:none; font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--neutral-white);">DashDotData</span>
-    </a>
+  <a href="#" class="nav-logo">
+    <img src="logo.png"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
+         alt="DashDotData">
+    <span style="display:none; font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--neutral-white);">DashDotData</span>
+  </a>
 
   <ul class="nav-links">
     <li><a href="#overview">Overview</a></li>
@@ -918,7 +1243,27 @@
     <a href="#contact" class="btn-outline">Contact Us</a>
     <a href="#contact" class="btn-primary">Schedule Demo</a>
   </div>
+
+  <!-- Hamburger button (mobile only) -->
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="#overview" class="nav-mobile-link">Overview</a>
+  <a href="#what-we-measure" class="nav-mobile-link">What We Measure</a>
+  <a href="#how-it-works" class="nav-mobile-link">How It Works</a>
+  <a href="#impact" class="nav-mobile-link">Impact</a>
+  <a href="#faq" class="nav-mobile-link">FAQ</a>
+  <div class="nav-mobile-ctas">
+    <a href="#contact" class="btn-outline">Contact Us</a>
+    <a href="#contact" class="btn-primary">Schedule Demo</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="overview">
@@ -996,7 +1341,6 @@
       </div>
       <div class="measure-card">
         <div class="measure-icon">
-          <!-- Vehicle counts: bar chart with upward trend -->
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="12" width="4" height="9" rx="1"/>
             <rect x="10" y="7" width="4" height="14" rx="1"/>
@@ -1009,7 +1353,6 @@
       </div>
       <div class="measure-card">
         <div class="measure-icon">
-          <!-- Speed/flow: speedometer gauge -->
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" stroke-dasharray="25 50" stroke-dashoffset="-12"/>
             <path d="M12 20a8 8 0 0 0 0-16"/>
@@ -1212,14 +1555,30 @@
 </section>
 
 <script>
+  // ── FAQ accordion ──
   document.querySelectorAll('.faq-trigger').forEach(trigger => {
     trigger.addEventListener('click', () => {
       const item = trigger.closest('.faq-item');
       const isOpen = item.classList.contains('open');
-      // Close all open items
       document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-      // Open clicked item if it was closed
       if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ── Mobile nav hamburger ──
+  const hamburger = document.getElementById('nav-hamburger');
+  const mobileMenu = document.getElementById('nav-mobile-menu');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.contains('open');
+    mobileMenu.classList.toggle('open');
+    hamburger.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+  });
+
+  // Close mobile menu when any link is tapped
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
     });
   });
 </script>
