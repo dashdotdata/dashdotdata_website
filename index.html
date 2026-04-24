@@ -256,7 +256,6 @@
     min-height: 420px;
   }
 
-
   /* ── SECTION 4: WHAT WE MEASURE ── */
   .measures {
     padding: 80px 48px;
@@ -417,7 +416,6 @@
     line-height: 1.6;
     color: var(--neutral-dark-gray);
   }
-
 
   /* ── SECTION 9: FAQ ── */
   .faq {
@@ -585,29 +583,35 @@
     max-width: 520px;
   }
 
+  /* Updated contact form — stacked name + email + button */
   .contact-form {
     display: flex;
-    align-items: center;
-    gap: 0;
+    flex-direction: column;
+    gap: 12px;
     margin-top: 8px;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px;
-    overflow: hidden;
-    background: rgba(255,255,255,0.1);
+    width: 100%;
+    max-width: 440px;
   }
 
   .contact-input {
     font-family: var(--font-body);
     font-size: 15px;
     color: var(--neutral-white);
-    background: transparent;
-    border: none;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
     outline: none;
     padding: 14px 20px;
-    width: 320px;
+    width: 100%;
+    transition: border-color 0.2s, background 0.2s;
   }
 
   .contact-input::placeholder { color: rgba(255,255,255,0.5); }
+
+  .contact-input:focus {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.15);
+  }
 
   .btn-send {
     font-family: var(--font-body);
@@ -617,8 +621,10 @@
     background: linear-gradient(135deg, var(--orange-01), var(--orange-10));
     border: none;
     padding: 14px 24px;
+    border-radius: 8px;
     cursor: pointer;
     transition: opacity 0.2s;
+    width: 100%;
   }
 
   .btn-send:hover { opacity: 0.9; }
@@ -627,6 +633,48 @@
     font-family: var(--font-body);
     font-size: 12px;
     color: rgba(255,255,255,0.5);
+  }
+
+  /* Contact form success state */
+  .contact-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    max-width: 440px;
+    width: 100%;
+  }
+
+  .contact-success.visible { display: flex; }
+
+  .contact-success-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-white);
+  }
+
+  .contact-success p {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .contact-success strong {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--neutral-white);
   }
 
   /* ── SECTION 8: CTA ── */
@@ -960,6 +1008,176 @@
 
   .btn-hero:hover { opacity: 0.9; }
 
+  /* ══════════════════════════════════════════
+     CONTACT MODAL
+  ══════════════════════════════════════════ */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(6, 31, 45, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--neutral-white);
+    border-radius: 16px;
+    padding: 48px;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+    animation: modalIn 0.25s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    background: var(--neutral-off-white);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-dark-gray);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .modal-close:hover {
+    background: var(--neutral-light-gray);
+    color: var(--neutral-near-black);
+  }
+
+  .modal-headline {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--neutral-near-black);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .modal-subhead {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--neutral-dark-gray);
+    margin-bottom: 28px;
+  }
+
+  .modal-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .modal-input {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--neutral-near-black);
+    background: var(--neutral-off-white);
+    border: 1.5px solid var(--neutral-light-gray);
+    border-radius: 8px;
+    padding: 13px 16px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .modal-input::placeholder { color: var(--neutral-mid-gray); }
+
+  .modal-input:focus {
+    border-color: var(--teal-06);
+    background: var(--neutral-white);
+  }
+
+  .modal-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .btn-modal-submit {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--neutral-white);
+    background: linear-gradient(135deg, var(--orange-01), var(--orange-10));
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s;
+  }
+
+  .btn-modal-submit:hover { opacity: 0.9; }
+
+  .modal-fine {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--neutral-mid-gray);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  /* Modal success state */
+  .modal-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 16px 0 8px;
+  }
+
+  .modal-success.visible { display: flex; }
+  .modal-form-body.hidden { display: none; }
+
+  .modal-success-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--teal-06), var(--teal-10));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .modal-success h3 {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--neutral-near-black);
+  }
+
+  .modal-success p {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--neutral-dark-gray);
+    line-height: 1.6;
+    max-width: 300px;
+  }
 
   /* ═══════════════════════════════════════════
      MOBILE RESPONSIVE STYLES
@@ -973,21 +1191,13 @@
       height: 64px;
     }
 
-    /* Hide desktop links and CTAs */
     .nav-links,
-    .nav-ctas {
-      display: none;
-    }
+    .nav-ctas { display: none; }
 
-    /* Show hamburger */
-    .nav-hamburger {
-      display: flex;
-    }
+    .nav-hamburger { display: flex; }
 
     /* ── HERO ── */
-    .hero {
-      padding: 32px 20px 48px;
-    }
+    .hero { padding: 32px 20px 48px; }
 
     .hero-card {
       grid-template-columns: 1fr;
@@ -995,19 +1205,14 @@
       border-radius: 12px;
     }
 
-    /* Show image above content on mobile */
     .hero-image {
       order: -1;
       height: 220px;
     }
 
-    .hero-image img {
-      height: 220px;
-    }
+    .hero-image img { height: 220px; }
 
-    .hero-content {
-      padding: 32px 24px 36px;
-    }
+    .hero-content { padding: 32px 24px 36px; }
 
     .hero-headline {
       font-size: 32px;
@@ -1027,16 +1232,13 @@
     }
 
     /* ── PROBLEM ── */
-    .problem {
-      padding: 56px 20px;
-    }
+    .problem { padding: 56px 20px; }
 
     .problem-inner {
       grid-template-columns: 1fr;
       gap: 32px;
     }
 
-    /* Text above image on mobile */
     .problem-content { order: -1; }
 
     .problem-headline {
@@ -1052,9 +1254,7 @@
     .problem-image img { min-height: 240px; }
 
     /* ── SOLUTION ── */
-    .solution {
-      padding: 56px 20px;
-    }
+    .solution { padding: 56px 20px; }
 
     .solution-inner {
       grid-template-columns: 1fr;
@@ -1074,9 +1274,7 @@
     .solution-image img { min-height: 240px; }
 
     /* ── WHAT WE MEASURE ── */
-    .measures {
-      padding: 56px 20px;
-    }
+    .measures { padding: 56px 20px; }
 
     .measures-headline { font-size: 30px; }
 
@@ -1088,9 +1286,7 @@
     .measure-title { font-size: 20px; }
 
     /* ── HOW IT WORKS ── */
-    .process {
-      padding: 56px 20px;
-    }
+    .process { padding: 56px 20px; }
 
     .process-headline { font-size: 30px; }
 
@@ -1100,20 +1296,16 @@
     }
 
     .process-number { font-size: 36px; }
-
     .process-image { height: 180px; }
 
     /* ── IMPACT ── */
-    .impact {
-      padding: 56px 20px;
-    }
+    .impact { padding: 56px 20px; }
 
     .impact-inner {
       grid-template-columns: 1fr;
       gap: 32px;
     }
 
-    /* Text above image on mobile */
     .impact-content { order: -1; }
 
     .impact-headline {
@@ -1129,9 +1321,7 @@
     .impact-image img { min-height: 240px; }
 
     /* ── WHY NOW ── */
-    .whynow {
-      padding: 56px 20px;
-    }
+    .whynow { padding: 56px 20px; }
 
     .whynow-inner {
       grid-template-columns: 1fr;
@@ -1146,20 +1336,14 @@
     .whynow-title { font-size: 20px; }
 
     /* ── FAQ ── */
-    .faq {
-      padding: 56px 20px;
-    }
+    .faq { padding: 56px 20px; }
 
     .faq-headline { font-size: 36px; }
-
     .faq-trigger span { font-size: 16px; }
-
     .faq-still-title { font-size: 24px; }
 
     /* ── CONTACT ── */
-    .contact {
-      padding: 64px 20px;
-    }
+    .contact { padding: 64px 20px; }
 
     .contact-headline {
       font-size: 30px;
@@ -1171,28 +1355,18 @@
       max-width: 100%;
     }
 
-    /* Stack email input and button vertically */
-    .contact-form {
-      flex-direction: column;
-      width: 100%;
-      border-radius: 10px;
-      overflow: hidden;
+    .contact-form { max-width: 100%; }
+
+    /* ── MODAL ── */
+    .modal {
+      padding: 36px 24px 28px;
+      border-radius: 12px;
     }
 
-    .contact-input {
-      width: 100%;
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .btn-send {
-      width: 100%;
-      padding: 16px 24px;
-      font-size: 16px;
-    }
+    .modal-headline { font-size: 24px; }
   }
 
-  /* Tablet: 769px – 1024px — fix 4-col process grid */
+  /* Tablet: 769px – 1024px */
   @media (min-width: 769px) and (max-width: 1024px) {
     nav { padding: 0 28px; }
 
@@ -1217,10 +1391,42 @@
     .measures-headline,
     .process-headline { font-size: 34px; }
   }
-
 </style>
 </head>
 <body>
+
+<!-- ══ CONTACT MODAL ══ -->
+<div class="modal-overlay" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+
+    <!-- Form body -->
+    <div class="modal-form-body" id="modal-form-body">
+      <h2 class="modal-headline" id="modal-title">Get in touch</h2>
+      <p class="modal-subhead">Have a question or want to learn more? We'll get back to you within one business day.</p>
+      <form id="contact-modal-form" action="https://formspree.io/f/xvzdlobg" method="POST">
+        <div class="modal-fields">
+          <input class="modal-input" type="text" name="name" placeholder="Your name" required>
+          <input class="modal-input" type="email" name="email" placeholder="Your email" required>
+          <textarea class="modal-input modal-textarea" name="message" placeholder="How can we help?"></textarea>
+        </div>
+        <button type="submit" class="btn-modal-submit">Send message</button>
+        <p class="modal-fine">By submitting you agree to our terms and privacy policy.</p>
+      </form>
+    </div>
+
+    <!-- Success state (shown after submission) -->
+    <div class="modal-success" id="modal-success">
+      <div class="modal-success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>Message received</h3>
+      <p>Thanks for reaching out. We'll be in touch within one business day.</p>
+    </div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -1240,7 +1446,9 @@
   </ul>
 
   <div class="nav-ctas">
-    <a href="#contact" class="btn-outline">Contact Us</a>
+    <!-- Contact Us → opens modal -->
+    <button class="btn-outline open-contact-modal">Contact Us</button>
+    <!-- Schedule Demo → scrolls to contact section -->
     <a href="#contact" class="btn-primary">Schedule Demo</a>
   </div>
 
@@ -1260,7 +1468,7 @@
   <a href="#impact" class="nav-mobile-link">Impact</a>
   <a href="#faq" class="nav-mobile-link">FAQ</a>
   <div class="nav-mobile-ctas">
-    <a href="#contact" class="btn-outline">Contact Us</a>
+    <button class="btn-outline open-contact-modal">Contact Us</button>
     <a href="#contact" class="btn-primary">Schedule Demo</a>
   </div>
 </div>
@@ -1274,7 +1482,8 @@
     <div class="hero-content">
       <h1 class="hero-headline">Turn your existing camera network into measurable civic intelligence</h1>
       <p class="hero-body">Municipal leaders across the country are using existing camera networks to understand their cities in ways that were not possible before. From traffic engineering to public safety to budget planning, DashDotData transforms footage into facts—the kind of facts that guide real decisions about where to calm traffic, how to deploy resources, and what infrastructure actually needs to change.</p>
-      <a href="#schedule" class="btn-hero">Request a walkthrough</a>
+      <!-- Request a walkthrough → scrolls to contact section -->
+      <a href="#contact" class="btn-hero">Request a walkthrough</a>
     </div>
   </div>
 </section>
@@ -1533,10 +1742,12 @@
         </div>
       </div>
     </div>
+
     <div class="faq-still">
       <h3 class="faq-still-title">Still have questions?</h3>
       <p class="faq-still-body">Reach out to our team. We're here to talk through your specific situation.</p>
-      <a href="#contact" class="btn-outline">Contact</a>
+      <!-- Contact → opens modal -->
+      <button class="btn-outline open-contact-modal">Contact</button>
     </div>
   </div>
 </section>
@@ -1545,11 +1756,24 @@
 <section class="contact" id="contact">
   <div class="contact-inner">
     <h2 class="contact-headline">Schedule a 30-minute pilot review</h2>
-    <p class="contact-body">Enter your email and we'll send you everything you need to schedule your personalized walkthrough and Q&amp;A session.</p>
-    <div class="contact-form">
-      <input type="email" class="contact-input" placeholder="Your email">
-      <button class="btn-send">Send</button>
+    <p class="contact-body">Enter your name and email and we'll send you everything you need to schedule your personalized walkthrough and Q&amp;A session.</p>
+
+    <!-- Pilot review form — wired to Formspree -->
+    <form id="pilot-form" action="https://formspree.io/f/mjgjlvpw" method="POST" class="contact-form">
+      <input type="text" name="name" class="contact-input" placeholder="Your name" required>
+      <input type="email" name="email" class="contact-input" placeholder="Your email" required>
+      <button type="submit" class="btn-send">Send</button>
+    </form>
+
+    <!-- Success message (shown after submission) -->
+    <div class="contact-success" id="pilot-success">
+      <div class="contact-success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <strong>You're on the list.</strong>
+      <p>We'll be in touch shortly with everything you need to schedule your walkthrough.</p>
     </div>
+
     <p class="contact-fine">By submitting this form you agree to our terms and privacy policy.</p>
   </div>
 </section>
@@ -1575,11 +1799,105 @@
     hamburger.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
   });
 
-  // Close mobile menu when any link is tapped
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.remove('open');
     });
+  });
+
+  // ── Contact modal ──
+  const modalOverlay = document.getElementById('contact-modal');
+  const modalClose   = document.getElementById('modal-close');
+
+  // Open modal — all buttons with class open-contact-modal
+  document.querySelectorAll('.open-contact-modal').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Also close mobile menu if open
+      mobileMenu.classList.remove('open');
+      modalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Close modal via X button
+  modalClose.addEventListener('click', closeModal);
+
+  // Close modal by clicking backdrop
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+  });
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Contact modal form submission (Formspree via fetch) ──
+  const contactModalForm = document.getElementById('contact-modal-form');
+  const modalFormBody    = document.getElementById('modal-form-body');
+  const modalSuccess     = document.getElementById('modal-success');
+
+  contactModalForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = contactModalForm.querySelector('button[type="submit"]');
+    submitBtn.textContent = 'Sending…';
+    submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(contactModalForm.action, {
+        method: 'POST',
+        body: new FormData(contactModalForm),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        modalFormBody.classList.add('hidden');
+        modalSuccess.classList.add('visible');
+        // Auto-close modal after 3 seconds
+        setTimeout(closeModal, 3000);
+      } else {
+        submitBtn.textContent = 'Something went wrong — try again';
+        submitBtn.disabled = false;
+      }
+    } catch {
+      submitBtn.textContent = 'Something went wrong — try again';
+      submitBtn.disabled = false;
+    }
+  });
+
+  // ── Pilot review form submission (Formspree via fetch) ──
+  const pilotForm    = document.getElementById('pilot-form');
+  const pilotSuccess = document.getElementById('pilot-success');
+
+  pilotForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = pilotForm.querySelector('button[type="submit"]');
+    submitBtn.textContent = 'Sending…';
+    submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(pilotForm.action, {
+        method: 'POST',
+        body: new FormData(pilotForm),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        pilotForm.style.display = 'none';
+        pilotSuccess.classList.add('visible');
+      } else {
+        submitBtn.textContent = 'Something went wrong — try again';
+        submitBtn.disabled = false;
+      }
+    } catch {
+      submitBtn.textContent = 'Something went wrong — try again';
+      submitBtn.disabled = false;
+    }
   });
 </script>
 
